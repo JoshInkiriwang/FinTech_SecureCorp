@@ -10,7 +10,7 @@ This project presents the design and implementation of a secure enterprise netwo
 
 FinTech systems handle highly sensitive financial and user data, making them a prime target for cyber threats, so it require proper security controls to prevent:
 
-* Unauthorized users can access to critical systems
+* Unauthorized users accessing critical systems
 * Internal network attacks can spread laterally.
 * Compromised devices can disrupt operations.
 
@@ -44,7 +44,7 @@ The network is structured into multiple segments to isolate traffic and improve 
 ## 🔐 Security Implementation
 
 1. VLAN Segmentation
-   * Separates departements into isolated broadcast domains
+   * Separates departments into isolated broadcast domains
    * Limits unnecessary communication between network zones
 
 2. Access Control Lists
@@ -66,11 +66,11 @@ The network is structured into multiple segments to isolate traffic and improve 
 ## ⚔️ Threat Scenarios & Mitigation
 
 Scenario 1: Unauthorized Device Access
-   * An attackr connects a device to a switch port
+   * An attacker connects a device to a switch port
    * Mitigation: Port security blocks unknown MAC addresses
 
 Scenario 2: Unauthorized Access to Server VLAN
-   * A user from one departement tries to acccess restricted servers
+   * A user from one department tries to acccess restricted servers
    * Mitigation: ACL rules deny unauthorized traffic
    
 Scenario 3: Lateral Movement Risk
