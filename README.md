@@ -112,10 +112,10 @@ Scenario 3: Lateral Movement Risk
 
 ## 🔮 Future Improvements
 
-* Implement **Dynamic Routing (OSPF)** for scalability
-* Add **IDS/IPS and Honeypot systems** for advanced threat detection
-* Introduce **DNS & Mail Servers in DMZ architecture**
-* Integrate **network monitoring (SNMP-based tools)**
+* Implement Dynamic Routing (OSPF) for scalability
+* Add IDS/IPS and Honeypot systems for advanced threat detection
+* Introduce DNS & Mail Servers in DMZ architecture
+* Integrate network monitoring (SNMP-based tools)
 
 ---
 
