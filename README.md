@@ -113,6 +113,7 @@ Using VyOS, a zone-based firewall policy was implemented:
 
 🔹 Key Configuration Example
 
+```bash
 set firewall ipv4 name BLOCK-SERVER default-action accept
 
 set firewall ipv4 name BLOCK-SERVER rule 10 action drop
@@ -125,6 +126,7 @@ set firewall ipv4 name BLOCK-SERVER rule 10 destination address 10.10.30.0/24
 * Importance of rule order and implicit deny
 * Handling return traffic and state awareness
 * Difference between: Cisco ACL (interface-based) and VyOS firewall (policy-based)
+```
 
 ---
 
