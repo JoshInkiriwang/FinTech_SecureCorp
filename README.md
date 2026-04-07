@@ -7,6 +7,7 @@
 - [Objectives](#-objectives)
 - [Network Architecture](#-network-architecture)
 - [Security Implementation](#-security-implementation)
+- [Advanced Implementation (GNS3 + VyOS)](#-Advanced-Implementation-(GNS3+VyOS))
 - [Threat Scenarios & Mitigation](#️-threat-scenarios--mitigation)
 - [Results](#-results)
 - [Key Learnings](#-key-learnings)
@@ -77,6 +78,56 @@ The network is structured into multiple segments to isolate traffic and improve 
 
 ---
 
+## 🚀 Advanced Implementation (GNS3 + VyOS)
+To enhance the realism of the simulation and align with industry pratices, this project was extended beyond Cisco Packet Tracer using GNS3 and VyOS
+
+🔹 Motivation
+While Cisco Packet Tracer is useful for foundational learning, it has limitations in simulating real-world firewall behaviour and network traffic inspection. Therefore, this project was upgraded to:
+* Simulate real packet flow and routing behaviour
+* Implement zone-based firewall policies
+* Gain hands-on experience with Linux-based network operating systems
+
+🔹 Network Segmentation Upgrade
+The network was redesign into three main zones:
+| Zone     | Subnet        | Description                |
+| -------- | ------------- | -------------------------- |
+| Client-A | 10.10.10.0/24 | Trusted internal users     |
+| Client-B | 10.10.20.0/24 | Restricted users           |
+| Server   | 10.10.30.0/24 | Critical financial systems |
+
+🔹 Zone-Based Firewall Implementation
+
+Using VyOS, a zone-based firewall policy was implemented:
+
+* Traffic is controlled based on source zone → destination zone
+* Policies are explicitly defined (default deny model)
+
+🔐 Security Policy
+| Source   | Destination | Action  |
+| -------- | ----------- | ------- |
+| Client-A | Server      | ✅ Allow |
+| Client-B | Server      | ❌ Deny  |
+| Server   | Client-B    | ❌ Deny  |
+| Client-A | Client-B    | ✅ Allow |
+| Client-B | Client-A    | ✅ Allow |
+
+🔹 Key Configuration Example
+"""
+set firewall ipv4 name BLOCK-SERVER default-action accept
+
+set firewall ipv4 name BLOCK-SERVER rule 10 action drop
+set firewall ipv4 name BLOCK-SERVER rule 10 source address 10.10.20.0/24
+set firewall ipv4 name BLOCK-SERVER rule 10 destination address 10.10.30.0/24
+"""
+
+🔹 Key Learnings from Advanced Setup
+* Understanding zone-based traffic flow (FROM → TO)
+* Importance of rule order and implicit deny
+* Handling return traffic and state awareness
+* Difference between: Cisco ACL (interface-based) and VyOS firewall (policy-based)
+
+---
+
 ## ⚔️ Threat Scenarios & Mitigation
 
 Scenario 1: Unauthorized Device Access
@@ -119,10 +170,13 @@ Scenario 3: Lateral Movement Risk
 
 ---
 
-## 🧰 Tools Used
+## 🧰 Tools Used (Extended)
 
 * Cisco Packet Tracer
 * Network configuration (VLAN, ACL, NAT, Port Security)
+* GNS3
+* VyOS
+* Wireshark (optional for traffic inspection)
 
 ---
 
