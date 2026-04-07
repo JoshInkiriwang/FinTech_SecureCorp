@@ -158,6 +158,8 @@ Scenario 3: Lateral Movement Risk
 * Practical implementation of network security controls
 * Trade-offs between security and network flexibility
 * Designing networks with real-world constraints
+* Experience troubleshooting firewall misconfigurations (e.g., unintended deny-all rules)
+* Understanding real-world debugging process in network security environments
 
 ---
 
