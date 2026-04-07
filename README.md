@@ -15,8 +15,6 @@
 - [Tools Used](#-tools-used)
 - [Repository Structure](#-repository-structure)
 
-- https://github.com/JoshInkiriwang/FinTech-SecureCorp-Network-Security/blob/main/README.md#-advanced-implementation-gns3--vyos
-
 ## 📌 Overview
 
 This project simulates a secure enterprise-grade network architecture for a FinTech environtment, focusing on protecting sensitive financial systems from unauthorized access and internal threats. The initial design was developed using **Cisco Packet Tracer** to establish core networking concepts such as VLAN segmentation, inter-VLAN routing and access control. To better reflect real-world network behaviour, the project was extended using **GNS3** and **VyOS** to implement zone-based firewall policies and simulate realistic traffic flows. The solution demonstrates how network segmentation, access control, and layered security mechanisms can be combined to reduce attack surface, prevent lateral movement, and enforce least-privilege communication in a production-like environment.
