@@ -1,5 +1,4 @@
-# FinTech SecureCorp Network Security Design
-
+# Enterprise FinTech Network Security Lab: From VLAN Design to Zone-Based Firewall (GNS3 + VyOS)
 ## 📑 Table of Contents
 
 - [Overview](#-overview)
