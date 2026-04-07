@@ -7,7 +7,7 @@
 - [Objectives](#-objectives)
 - [Network Architecture](#-network-architecture)
 - [Security Implementation](#-security-implementation)
-- [#-Advanced-Implementation-(GNS3-+-VyOS](#-advanced-implementation)
+- [Advanced Implementation (GNS3 + VyOS)](#-advanced-implementation)
 - [Threat Scenarios & Mitigation](#️-threat-scenarios--mitigation)
 - [Results](#-results)
 - [Key Learnings](#-key-learnings)
