@@ -39,7 +39,7 @@ The network is structured into multiple segments to isolate traffic and improve 
 * NAT configuration for external communication
 * Controlled communication between segments
 
-![Network Topology Diagram](asset/Logical-Topology.png)
+![Network Topology Diagram](asset/logical-topology.png)
 
 ---
 
