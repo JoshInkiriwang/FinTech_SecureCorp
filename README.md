@@ -39,7 +39,7 @@ The network is structured into multiple segments to isolate traffic and improve 
 * NAT configuration for external communication
 * Controlled communication between segments
 
-![Network Topology Diagram](asset/logical-topology.png)
+![Network Topology - Cisco Packet Tracer](asset/logical-topology.png)
 
 ---
 
