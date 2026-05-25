@@ -2,21 +2,6 @@
 
 🔐 A hands-on network security project simulating a FinTech infrastructure, covering end-to-end design, implementation, and validation from VLAN segmentation in Cisco Packet Tracer to zone-based firewall enforcement in GNS3 using VyOS.
 
-## 📑 Table of Contents
-
-- [Overview](#-overview)
-- [Problem Statement](#️-problem-statement)
-- [Objectives](#-objectives)
-- [Network Architecture](#-network-architecture)
-- [Security Implementation](#-security-implementation)
-- [Advanced Implementation (GNS3 + VyOS)](#-advanced-implementation-(GNS3--VyOS))
-- [Threat Scenarios & Mitigation](#️-threat-scenarios--mitigation)
-- [Results](#-results)
-- [Key Learnings](#-key-learnings)
-- [Future Improvements](#-future-improvements)
-- [Tools Used](#-tools-used)
-- [Repository Structure](#-repository-structure)
-
 ## 📌 Overview
 
 This project simulates a secure enterprise-grade network architecture for a FinTech environment, focusing on protecting sensitive financial systems from unauthorized access and internal threats. The initial design was developed using **Cisco Packet Tracer** to establish core networking concepts such as VLAN segmentation, inter-VLAN routing and access control. To better reflect real-world network behavior, the project was extended using **GNS3** and **VyOS** to implement zone-based firewall policies and simulate realistic traffic flows. The solution demonstrates how network segmentation, access control, and layered security mechanisms can be combined to reduce attack surface, prevent lateral movement, and enforce least-privilege communication in a production-like environment.
@@ -54,7 +39,7 @@ The network is structured into multiple segments to isolate traffic and improve 
 * NAT configuration for external communication
 * Controlled communication between segments
 
-![Network Topology Diagram](Assets/Logical-Topology.png)
+![Network Topology Diagram](asset/Logical-Topology.png)
 
 ---
 
