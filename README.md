@@ -1,204 +1,113 @@
-# FinTech Network Security Lab: Segmented Infrastructure Design and Zone-Based Firewall Implementation
+# FinTech Network Security Lab
+### Segmented Infrastructure Design and Zone-Based Firewall Implementation
 
-![Cisco Packet Tracer]
-![GNS3]
-![VyOS]
-![VLAN Segmentation]
-![Zone-Based Firewall]
-![ACL]
-
-🔐 A hands-on network security project simulating a FinTech infrastructure, covering end-to-end design, implementation, and validation from VLAN segmentation in Cisco Packet Tracer to zone-based firewall enforcement in GNS3 using VyOS.
-
-## 📌 Overview
-
-This project simulates a secure enterprise-grade network architecture for a FinTech environment, focusing on protecting sensitive financial systems from unauthorized access and internal threats. The initial design was developed using **Cisco Packet Tracer** to establish core networking concepts such as VLAN segmentation, inter-VLAN routing and access control. To better reflect real-world network behavior, the project was extended using **GNS3** and **VyOS** to implement zone-based firewall policies and simulate realistic traffic flows. The solution demonstrates how network segmentation, access control, and layered security mechanisms can be combined to reduce attack surface, prevent lateral movement, and enforce least-privilege communication in a production-like environment.
+![Cisco Packet Tracer](https://img.shields.io/badge/Cisco-Packet%20Tracer-1BA0D7?style=for-the-badge&logo=cisco&logoColor=white)
+![GNS3](https://img.shields.io/badge/Simulation-GNS3-brightgreen?style=for-the-badge)
+![VyOS](https://img.shields.io/badge/Firewall-VyOS-blue?style=for-the-badge)
+![VLAN](https://img.shields.io/badge/Segmentation-VLAN-orange?style=for-the-badge)
 
 ---
 
-## ⚠️ Problem Statement
+## Overview
 
-FinTech systems handle highly sensitive financial and user data, making them a prime target for cyber threats, so it require proper security controls to prevent:
+This project simulates a secure network infrastructure for **FinTech SecureCorp**, a fictional digital payment company handling settlement, payroll, and vendor transactions — environments where unauthorized access and lateral movement are critical risks.
 
-* Unauthorized users accessing critical systems
-* Internal network attacks can spread laterally.
-* Compromised devices can disrupt operations.
-
-This project addresses these risks by implementing structured network segmentation, and layered security controls.
+The Packet Tracer implementation was built as part of a team assignment, where my contribution covered topology implementation, device configuration, IP addressing and subnetting, VLAN setup, ACL, NAT, and port security. After submission, I independently extended the project using GNS3 and VyOS to explore stateful zone-based firewall enforcement — functionality that Packet Tracer cannot simulate — and to validate whether the security policies I had implemented would hold under more realistic traffic conditions.
 
 ---
 
-## 🎯 Objectives
+## The Problem
 
-* Design a scalable enterprise network for a FinTech environment.
-* Implement network segmentation using VLANs.
-* Enforce access control using ACLs (Access Control Lists)
-* Apply Layer 2 security mechanisms (Port Security)
-* Reduce the risk of unauthorized access and lateral movement
+A flat network where all departments share the same broadcast domain creates two compounding risks. First, a compromised device can reach any server without crossing a security boundary. Second, lateral movement between user segments goes undetected because there is nothing to detect it.
+
+FinTech SecureCorp's network needed segmentation that could enforce least privilege not just between users and servers, but between user groups as well.
 
 ---
 
-## 🏗️ Network Architecture
+## Network Architecture
 
-The network is structured into multiple segments to isolate traffic and improve security:
+The design separates traffic into four zones, each with a defined trust level and access policy.
 
-* Department-based VLAN segmentation.
-* Inter-VLAN routing using SVI (Switch Virtual Interface).
-* NAT configuration for external communication
-* Controlled communication between segments
+| Zone | Subnet | Devices | Trust Level |
+|---|---|---|---|
+| DMZ | 10.10.10.0/27 | Web Server, Mail Server | Public-facing, untrusted |
+| Server Farm | 10.10.20.0/28 | Database Server, App Server | Restricted, high sensitivity |
+| Internal LAN | 10.10.30.0/26, 10.10.40.0/24, 10.10.99.0/28 | Finance, HR, Staff, IT Admin | Internal, role-based access |
+| External | 203.0.113.0/30 | ISP Router, Internet PC | Untrusted |
 
-![Network Topology - Cisco Packet Tracer](asset/logical-topology.png)
+All inter-zone traffic passes through the Firewall/Router, which enforces ACL policies and performs static NAT to expose only the Web Server on port 80/443 to the internet. The IT Admin subnet uses a dedicated /28 block so that SSH management access to all servers can be restricted to a single verifiable source subnet in the ACL, making the policy both auditable and harder to spoof.
 
----
-
-## 🔐 Security Implementation
-
-1. VLAN Segmentation
-   * Separates departments into isolated broadcast domains
-   * Limits unnecessary communication between network zones
-
-2. Access Control Lists
-   * Restrict traffic between VLANs
-   * Enforces least privilege principles
-   * Prevents unauthorized access to sensitive servers
-   
-3. Port Security
-   * Restrict switch ports to specific MAC addresses
-   * Prevent unauthorized device connections
-   * Mitigate risks from rogue devices
-   
-4. Network Address Translation
-   * Hides internal IP addresses.
-   * Adds an additional layer of protection for internal systems
+Full topology diagram and IP addressing table are in [`/Assets`](./Assets).
 
 ---
 
-## 🚀 Advanced Implementation (GNS3 + VyOS)
-To enhance the realism of the simulation and align with industry pratices, this project was extended beyond Cisco Packet Tracer using GNS3 and VyOS
+## Security Implementation
 
-### Motivation
-While Cisco Packet Tracer is useful for foundational learning, it has limitations in simulating real-world firewall behavior and network traffic inspection. Therefore, this project was upgraded to:
-* Simulate real packet flow and routing behavior
-* Implement zone-based firewall policies
-* Gain hands-on experience with Linux-based network operating systems
+**Cisco Packet Tracer — ACL and segmentation layer**
 
-###🔹 Network Segmentation Upgrade
-The network was redesigned into three main zones:
-| Zone     | Subnet        | Description                |
-| -------- | ------------- | -------------------------- |
-| Client-A | 10.10.10.0/24 | Trusted internal users     |
-| Client-B | 10.10.20.0/24 | Restricted users           |
-| Server   | 10.10.30.0/24 | Critical financial systems |
+Three extended ACLs enforce traffic policy at the firewall. The most critical rule set blocks all internal LAN traffic from reaching the Server Farm directly, with the exception of IT Admin accessing servers via SSH on port 22. Finance and HR reach the App Server only through the application layer, not by direct database access.
 
-### Zone-Based Firewall Implementation
+Static NAT with port forwarding exposes only port 80 and 443 from the Web Server to the internet. All other inbound traffic from the ISP is implicitly denied.
 
-Using VyOS, a zone-based firewall policy was implemented:
+Port security on access switches limits each port to one learned MAC address, preventing rogue device connections.
 
-* Traffic is controlled based on source zone → destination zone
-* Policies are explicitly defined (default deny model)
+**GNS3 + VyOS — stateful firewall proof of concept**
 
-🔐 Security Policy
-| Source   | Destination | Action  |
-| -------- | ----------- | ------- |
-| Client-A | Server      | ✅ Allow |
-| Client-B | Server      | ❌ Deny  |
-| Server   | Client-B    | ❌ Deny  |
-| Client-A | Client-B    | ✅ Allow |
-| Client-B | Client-A    | ✅ Allow |
+The GNS3 extension abstracts the full topology into three zones — CLIENT-A (trusted), CLIENT-B (restricted), and SERVER — to isolate and validate stateful firewall behavior that Packet Tracer cannot test.
 
-### Key Configuration Example
+The enforced policy is:
 
-```bash
-set firewall ipv4 name BLOCK-SERVER default-action accept
+| Source | Destination | Action | Reason |
+|---|---|---|---|
+| CLIENT-A | SERVER | Allow | Trusted users require system access |
+| CLIENT-B | SERVER | Deny | Restricted users, no server access |
+| CLIENT-A | CLIENT-B | Deny | Prevent lateral movement |
+| CLIENT-B | CLIENT-A | Deny | Prevent lateral movement |
+| SERVER | CLIENT-A | Deny | Server does not initiate to clients |
+| SERVER | CLIENT-B | Deny | Server does not initiate to clients |
 
-set firewall ipv4 name BLOCK-SERVER rule 10 action drop
-set firewall ipv4 name BLOCK-SERVER rule 10 source address 10.10.20.0/24
-set firewall ipv4 name BLOCK-SERVER rule 10 destination address 10.10.30.0/24
+Each directional policy uses a separate named ruleset with `default-action drop`. Full configuration is in [`/Configurations/vyos-router.txt`](./Configurations/).
+
+---
+
+## Validation
+
+| Source | Destination | Expected | Result |
+|---|---|---|---|
+| CLIENT-A (10.10.10.2) | SERVER (10.10.30.2) | Allow | Success |
+| CLIENT-B (10.10.20.2) | SERVER (10.10.30.2) | Deny | Timeout |
+| CLIENT-A (10.10.10.2) | CLIENT-B (10.10.20.2) | Deny | Timeout |
+| CLIENT-B (10.10.20.2) | CLIENT-A (10.10.10.2) | Deny | Timeout |
+
+---
+
+## Lessons Learned
+
+**Separate rulesets per direction, not one ruleset for everything.**
+The initial GNS3 config applied a single ruleset across all zone transitions. Because zone-based firewall policy is directional, each FROM-TO pair needs its own named ruleset. A single ruleset applied everywhere produces unpredictable behavior because the same rules evaluate against traffic flows they were never designed for.
+
+**Default-action accept is not a default deny model.**
+The original config used `default-action accept` with one explicit drop rule — which is a targeted block, not a deny-all posture. Every ruleset now uses `default-action drop` so that any traffic not explicitly permitted is rejected without a matching rule needed.
+
+**Stateful tracking requires established/related rules for return traffic.**
+After fixing the default action, CLIENT-A could initiate connections to SERVER but received no replies. The issue was that return traffic from SERVER travels back through BLOCK-LATERAL, which was dropping it. VyOS tracks connection state, so adding `state established enable` and `state related enable` as the first rule in each ruleset allows return traffic from approved sessions without opening broad exceptions.
+
+---
+
+## Future Improvements
+
+- Replace VPCS endpoints with Alpine Linux hosts to enable port-based rule testing with real HTTP and SSH traffic
+- Extend GNS3 topology to reflect the full Packet Tracer architecture including DMZ and Server Farm zones
+- Add IDS/IPS simulation using Snort on a dedicated GNS3 node
+- Implement OSPF between zones to reflect dynamic routing behavior in larger deployments
+
+---
+
+## Repository Structure
+
 ```
-
-### Key Learnings from Advanced Setup
-* Understanding zone-based traffic flow (FROM → TO)
-* Importance of rule order and implicit deny
-* Handling return traffic and state awareness
-* Difference between: Cisco ACL (interface-based) and VyOS firewall (policy-based)
-
----
-## 🧪 Validation & Testing
-
-The implemented security policies were validated through connectivity testing between network segments.
-
-### Test Scenarios
-
-| Source | Destination | Expected Result | Actual Result |
-|--------|------------|----------------|--------------|
-| Client-A | Server | Allowed | ✅ Success |
-| Client-B | Server | Blocked | ❌ Denied |
-| Client-A | Client-B | Allowed | ✅ Success |
-| Client-B | Client-A | Allowed | ✅ Success |
-
-### Key Validation Insight
-
-- Verified enforcement of least-privilege communication  
-- Confirmed segmentation prevents unauthorized access  
-- Identified and resolved misconfiguration issues (e.g., unintended deny-all rules)
-  
----
-## ⚔️ Threat Scenarios & Mitigation
-
-Scenario 1: Unauthorized Device Access
-   * An attacker connects a device to a switch port
-   * Mitigation: Port security blocks unknown MAC addresses
-
-Scenario 2: Unauthorized Access to Server VLAN
-   * A user from one department tries to acccess restricted servers
-   * Mitigation: ACL rules deny unauthorized traffic
-   
-Scenario 3: Lateral Movement Risk
-   * A compromised device attempts to access other departments.
-   * Mitigation: VLAN segmentation limits network exposure
----
-
-## 📊 Results
-
-* Improved network isolation through segmentation
-* Controlled access between network segments
-* Reduced attack surface within the internal network
-* Enhanced security posture for FinTech infrastructure
-
----
-
-## 🛠️ Key Learnings
-
-* Importance of defense-in-depth strategy
-* Practical implementation of network security controls
-* Trade-offs between security and network flexibility
-* Designing networks with real-world constraints
-* Experience troubleshooting firewall misconfigurations (e.g., unintended deny-all rules)
-* Understanding real-world debugging process in network security environments
-
----
-
-## 🔮 Future Improvements
-
-* Implement Dynamic Routing (OSPF) for scalability
-* Add IDS/IPS and Honeypot systems for advanced threat detection
-* Introduce DNS & Mail Servers in DMZ architecture
-* Integrate network monitoring (SNMP-based tools)
-
----
-
-## 🧰 Tools Used (Extended)
-
-* Cisco Packet Tracer
-* Network configuration (VLAN, ACL, NAT, Port Security)
-* GNS3
-* VyOS
-* Wireshark (optional for traffic inspection)
-
----
-
-## 📁 Repository Structure
-
-* `Docs/` → Technical Report & Documentation
-* `Simulation/` → Cisco Packet Tracer (.pkt) file
-* `Configurations/` → Device CLI configurations (.txt)
-* `Assets/` → Topology diagrams & addressing tables
+/Assets          → Topology diagrams, IP addressing table
+/Simulation      → Cisco Packet Tracer (.pkt) file
+/Configurations  → Device CLI configs (Packet Tracer) + VyOS config
+/Docs            → Full technical report (PDF)
+```
