@@ -1,5 +1,12 @@
 # FinTech Network Security Lab: Segmented Infrastructure Design and Zone-Based Firewall Implementation
 
+![Cisco Packet Tracer]
+![GNS3]
+![VyOS]
+![VLAN Segmentation]
+![Zone-Based Firewall]
+![ACL]
+
 🔐 A hands-on network security project simulating a FinTech infrastructure, covering end-to-end design, implementation, and validation from VLAN segmentation in Cisco Packet Tracer to zone-based firewall enforcement in GNS3 using VyOS.
 
 ## 📌 Overview
