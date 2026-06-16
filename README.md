@@ -66,7 +66,7 @@ The enforced policy is:
 | SERVER | CLIENT-A | Deny | Server does not initiate to clients |
 | SERVER | CLIENT-B | Deny | Server does not initiate to clients |
 
-Each directional policy uses a separate named ruleset with `default-action drop`. Full configuration is in [`/Configurations/vyos-router.txt`](./configurations/).
+Each directional policy uses a separate named ruleset with `default-action drop`. Full configuration is in [`/Configurations/vyos-router.txt`](./configurations/vyos-router.txt).
 
 ---
 
