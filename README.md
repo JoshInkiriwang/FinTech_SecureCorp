@@ -12,7 +12,7 @@
 
 This project simulates a secure network infrastructure for **FinTech SecureCorp**, a fictional digital payment company handling settlement, payroll, and vendor transactions — environments where unauthorized access and lateral movement are critical risks.
 
-The Packet Tracer implementation was built as part of a team assignment, where my contribution covered topology implementation, device configuration, IP addressing and subnetting, VLAN setup, ACL, NAT, and port security. After submission, I independently extended the project using GNS3 and VyOS to explore stateful zone-based firewall enforcement — functionality that Packet Tracer cannot simulate — and to validate whether the security policies I had implemented would hold under more realistic traffic conditions.
+The Packet Tracer implementation was built as part of a team assignment, where my contribution covered topology implementation, device configuration, IP addressing and subnetting, VLAN setup, ACL, NAT, and port security. After submission, I independently extended the project using GNS3 and VyOS to explore stateful zone-based firewall enforcement, functionality that Packet Tracer cannot simulate — and to validate whether the security policies I had implemented would hold under more realistic traffic conditions.
 
 ---
 
@@ -37,7 +37,7 @@ The design separates traffic into four zones, each with a defined trust level an
 
 All inter-zone traffic passes through the Firewall/Router, which enforces ACL policies and performs static NAT to expose only the Web Server on port 80/443 to the internet. The IT Admin subnet uses a dedicated /28 block so that SSH management access to all servers can be restricted to a single verifiable source subnet in the ACL, making the policy both auditable and harder to spoof.
 
-Full topology diagram and IP addressing table are in [`/Assets`](./assets).
+Full topology diagram and IP addressing table are in [`/Assets`](./asset).
 
 ---
 
