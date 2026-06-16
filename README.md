@@ -10,9 +10,9 @@
 
 ## Overview
 
-This project simulates a secure network infrastructure for **FinTech SecureCorp**, a fictional digital payment company handling settlement, payroll, and vendor transactions — environments where unauthorized access and lateral movement are critical risks.
+This project simulates a secure network infrastructure for **FinTech SecureCorp**, a fictional digital payment company handling settlement, payroll, and vendor transactions. Environments where unauthorized access and lateral movement are critical risks.
 
-The Packet Tracer implementation was built as part of a team assignment, where my contribution covered topology implementation, device configuration, IP addressing and subnetting, VLAN setup, ACL, NAT, and port security. After submission, I independently extended the project using GNS3 and VyOS to explore stateful zone-based firewall enforcement, functionality that Packet Tracer cannot simulate — and to validate whether the security policies I had implemented would hold under more realistic traffic conditions.
+The Packet Tracer implementation was built as part of a team assignment, where my contribution covered topology implementation, device configuration, IP addressing and subnetting, VLAN setup, ACL, NAT, and port security. After submission, I independently extended the project using GNS3 and VyOS to explore stateful zone-based firewall enforcement, functionality that Packet Tracer cannot simulate and to validate whether the security policies I had implemented would hold under more realistic traffic conditions.
 
 ---
 
@@ -53,7 +53,7 @@ Port security on access switches limits each port to one learned MAC address, pr
 
 **GNS3 + VyOS — stateful firewall proof of concept**
 
-The GNS3 extension abstracts the full topology into three zones — CLIENT-A (trusted), CLIENT-B (restricted), and SERVER — to isolate and validate stateful firewall behavior that Packet Tracer cannot test.
+The GNS3 extension abstracts the full topology into three zones which is CLIENT-A (trusted), CLIENT-B (restricted), and SERVER to isolate and validate stateful firewall behavior that Packet Tracer cannot test.
 
 The enforced policy is:
 
@@ -106,7 +106,7 @@ After fixing the default action, CLIENT-A could initiate connections to SERVER b
 ## Repository Structure
 
 ```
-/Assets          → Topology diagrams, IP addressing table
+/Asset          → Topology diagrams, IP addressing table
 /Simulation      → Cisco Packet Tracer (.pkt) file
 /Configurations  → Device CLI configs (Packet Tracer) + VyOS config
 /Docs            → Full technical report (PDF)
