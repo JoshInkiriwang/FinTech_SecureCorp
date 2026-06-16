@@ -51,7 +51,7 @@ Static NAT with port forwarding exposes only port 80 and 443 from the Web Server
 
 Port security on access switches limits each port to one learned MAC address, preventing rogue device connections.
 
-**GNS3 + VyOS — stateful firewall proof of concept**
+**GNS3 + VyOS for stateful firewall proof of concept**
 
 The GNS3 extension abstracts the full topology into three zones which is CLIENT-A (trusted), CLIENT-B (restricted), and SERVER to isolate and validate stateful firewall behavior that Packet Tracer cannot test.
 
@@ -87,7 +87,7 @@ Each directional policy uses a separate named ruleset with `default-action drop`
 The initial GNS3 config applied a single ruleset across all zone transitions. Because zone-based firewall policy is directional, each FROM-TO pair needs its own named ruleset. A single ruleset applied everywhere produces unpredictable behavior because the same rules evaluate against traffic flows they were never designed for.
 
 **Default-action accept is not a default deny model.**
-The original config used `default-action accept` with one explicit drop rule — which is a targeted block, not a deny-all posture. Every ruleset now uses `default-action drop` so that any traffic not explicitly permitted is rejected without a matching rule needed.
+The original config used `default-action accept` with one explicit drop rule which is a targeted block, not a deny-all posture. Every ruleset now uses `default-action drop` so that any traffic not explicitly permitted is rejected without a matching rule needed.
 
 **Stateful tracking requires established/related rules for return traffic.**
 After fixing the default action, CLIENT-A could initiate connections to SERVER but received no replies. The issue was that return traffic from SERVER travels back through BLOCK-LATERAL, which was dropping it. VyOS tracks connection state, so adding `state established enable` and `state related enable` as the first rule in each ruleset allows return traffic from approved sessions without opening broad exceptions.
